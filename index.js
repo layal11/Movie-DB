@@ -1,26 +1,27 @@
 var express = require("express");
 
-
 var app = express();
 
-
-app.get("/test", (request, response) => { 
-    response.send({ status: 200, message: "ok" }); 
+app.get("/test", (request, response) => {
+  response.send({ status: 200, message: "ok" });
 });
 
 var date = new Date();
-app.get("/time", (request, response) => { 
-     response.send({ status: 200, message: date.getHours() + ":" + date.getMinutes()}); 
-    });
-
-
-app.get("/hello/id", (request, response) => { 
-    response.send({ status: 200, message: "ok" }); 
+app.get("/time", (request, response) => {
+    
+    response.send({
+        status: 200,
+        message:
+        date.getHours() < 10 ? "0" + date.getHours() : date.getHours() +  // date.getHours()< 10 && "0" + date.getHours()
+        ":" + date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(),
+  });
 });
 
+app.get("/hello/id", (request, response) => {
+  response.send({ status: 200, message: "ok" });
+});
 
 app.listen(3000);
-
 
 // Importing "Express JS" module into out application
 //var express = require("express");
