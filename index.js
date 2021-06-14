@@ -52,18 +52,20 @@ app.get("/search", (request, response) => {
 //     message: "you have to provide a search",
 //     error: true
 //   });
-// });            
+// });
+
+var movies_route = require("./Movies");
+app.use("/movies", movies_route);
+
+
+
+
+
+
+
+
 
 app.listen(3000);
-
-
-
-
-
-
-
-
-
 
 // Importing "Express JS" module into out application
 //var express = require("express");
