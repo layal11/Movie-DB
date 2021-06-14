@@ -60,11 +60,6 @@ app.use("/movies", movies_route);
 
 
 
-
-
-
-
-
 app.listen(3000);
 
 // Importing "Express JS" module into out application
