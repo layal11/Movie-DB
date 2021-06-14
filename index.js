@@ -6,14 +6,15 @@ app.get("/test", (request, response) => {
   response.send({ status: 200, message: "ok" });
 });
 
-var date = new Date();
 app.get("/time", (request, response) => {
-    
-    response.send({
+var date = new Date();
+response.send({
         status: 200,
         message:
-        date.getHours() < 10 ? "0" + date.getHours() : date.getHours() +  // date.getHours()< 10 && "0" + date.getHours()
-        ":" + date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes(),
+         // date.getHours()< 10 && "0" + date.getHours()
+        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + 
+        ":" + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+        ":" + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds())
   });
 });
 
