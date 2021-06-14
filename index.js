@@ -7,22 +7,63 @@ app.get("/test", (request, response) => {
 });
 
 app.get("/time", (request, response) => {
-var date = new Date();
-response.send({
-        status: 200,
-        message:
-         // date.getHours()< 10 && "0" + date.getHours()
-        (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) + 
-        ":" + (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
-        ":" + (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds())
+  var date = new Date();
+  response.send({
+    status: 200,
+    message:
+      // date.getHours()< 10 && "0" + date.getHours()
+      (date.getHours() < 10 ? "0" + date.getHours() : date.getHours()) +
+      ":" +
+      (date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()) +
+      ":" +
+      (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()),
   });
 });
 
-app.get("/hello/id", (request, response) => {
+app.get("/", (request, response) => {
   response.send({ status: 200, message: "ok" });
 });
 
+var route = require("./Hello-ID");
+//Routes
+app.use("/hello", route);
+
+// localhost:3000/search?s=dsdsb
+app.get("/search", (request, response) => {
+  console.log(request.query.s);
+  response.send({
+    status: request.query.s ? 200 : 500,
+    message: request.query.s ? "Ok" : "you have to provide a search",
+    data: request.query.s,
+    error: request.query.s ? undefined : true,
+  });
+});
+// OR
+// app.get("/search", (request, response) => {
+//   console.log(request.query.s);
+//   response.send(
+//     request.query.s ?
+//     {
+//     status: 200,
+//     message: "Ok" ,
+//     data: request.query.s,
+//   } :{
+//     status: 500,
+//     message: "you have to provide a search",
+//     error: true
+//   });
+// });            
+
 app.listen(3000);
+
+
+
+
+
+
+
+
+
 
 // Importing "Express JS" module into out application
 //var express = require("express");
