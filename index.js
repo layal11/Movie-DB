@@ -5,7 +5,7 @@ var app = express();
 
 
 app.get("/test", (request, response) => { 
-    response.send("OK!"); 
+    response.send({ status: 200, message: "ok" }); 
 });
 
 var date = new Date();
