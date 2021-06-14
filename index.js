@@ -1,19 +1,22 @@
 var express = require("express");
 
-// var responseTime = require("resonse-time"); 
-
 
 var app = express();
 
 
 app.get("/test", (request, response) => { 
-    response.send({ status: 200, message: "ok" }); 
+    response.send("OK!"); 
 });
 
 var date = new Date();
 app.get("/time", (request, response) => { 
      response.send({ status: 200, message: date.getHours() + ":" + date.getMinutes()}); 
     });
+
+
+app.get("/hello/id", (request, response) => { 
+    response.send({ status: 200, message: "ok" }); 
+});
 
 
 app.listen(3000);
