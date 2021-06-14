@@ -1,0 +1,23 @@
+{
+  "name": "my-package-name",
+  "version": "1.0.0",
+  "description": "or CMDB for short",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/layal11/Movie-DB.git"
+  },
+  "author": "layal haidar",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/layal11/Movie-DB/issues"
+  },
+  "homepage": "https://github.com/layal11/Movie-DB#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
