@@ -28,7 +28,7 @@ var route = require("./Hello-ID");
 //Routes
 app.use("/hello", route);
 
-// localhost:3000/search?s=dsdsb
+// localhost:3000/search?s=anything
 app.get("/search", (request, response) => {
   console.log(request.query.s);
   response.send({
@@ -56,6 +56,8 @@ app.get("/search", (request, response) => {
 
 var movies_route = require("./Movies");
 app.use("/movies", movies_route);
+
+
 
 
 
