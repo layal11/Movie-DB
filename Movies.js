@@ -131,10 +131,6 @@ router.get("/add", (req, res) => {
   }
 });
 
-router.get("/update", (req, res) => {
-  // router code here
-});
-
 router.get("/delete/:id", (req, res) => {
   // router code here
   var isdeleted = 0;
@@ -153,6 +149,21 @@ router.get("/delete/:id", (req, res) => {
     message:
       isdeleted == 0 ? `the movie ${res.params.id} does not exist` : movies,
   });
+});
+
+router.get("/update/:id", (req, res) => {
+  // router code here
+  var isdeleted = 0;
+  if (req.params.id) {
+    for (let i in movies) { // for(var i =0 ; i < movies.length ; i++)
+      if (movies[i].id == req.params.id) {
+        movies[i].title = req.query.title ? req.query.title : movies[i].title;
+        movies[i].rating = req.query.rating ? req.query.rating : movies[i].rating;
+        movies[i].year = req.query.year? req.query.year : movies[i].year;
+      }
+    }
+  }
+  res.send({ status: 200, data: movies });
 });
 
 module.exports = router;
