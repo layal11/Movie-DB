@@ -103,7 +103,7 @@ router.get("/read/id/:id", (req, res) => {
   }
 });
 
-router.get("/add", (req, res) => {
+router.post("/add", (req, res) => {
   // router code here
   console.log(req.query.year);
   if (
@@ -131,7 +131,7 @@ router.get("/add", (req, res) => {
   }
 });
 
-router.get("/delete/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => {
   // router code here
   var isdeleted = 0;
   if (req.params.id) {
@@ -151,7 +151,7 @@ router.get("/delete/:id", (req, res) => {
   });
 });
 
-router.get("/update/:id", (req, res) => {
+router.put("/update/:id", (req, res) => {
   // router code here
   var isdeleted = 0;
   if (req.params.id) {
