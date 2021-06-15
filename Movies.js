@@ -105,7 +105,7 @@ router.get("/read/id/:id", (req, res) => {
 
 router.get("/add", (req, res) => {
   // router code here
-  console.log(req.query.year)
+  console.log(req.query.year);
   if (
     req.query.title &&
     req.query.year &&
@@ -120,7 +120,7 @@ router.get("/add", (req, res) => {
     });
     res.send({
       status: 200,
-      message: movies
+      message: movies,
     });
   } else {
     res.send({
@@ -135,8 +135,24 @@ router.get("/update", (req, res) => {
   // router code here
 });
 
-router.get("/delete", (req, res) => {
+router.get("/delete/:id", (req, res) => {
   // router code here
+  var isdeleted = 0;
+  if (req.params.id) {
+    for (let i in movies) {
+      // for(var i =0 ; i<movies.length ; i++)
+      if (movies[i].id == req.params.id) {
+        movies.splice(i, 1);
+        isdeleted = 1;
+      }
+    }
+  }
+  res.send({
+    status: isdeleted == 0 ? 404 : 200,
+    error: isdeleted == 0 ? true : undefined,
+    message:
+      isdeleted == 0 ? `the movie ${res.params.id} does not exist` : movies,
+  });
 });
 
 module.exports = router;
