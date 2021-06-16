@@ -15,7 +15,11 @@ router.get("/", (req, res) => {
   MongoClient.connect(
     "mongodb+srv://db-test:haidarlayal1998@cluster0.2kcqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
     (error, db) => {
-      res.send({ status: 200, data: movies });
+      // var result = db.db().collection("movies").find({})
+      // .then((datadelete) => {
+      //     res.redirect("/movies"); //URL
+      //   });
+      res.send({ status: 200, data: movies }); 
     }
   );
 });
@@ -127,7 +131,9 @@ router.post("/add", (req, res) => {
     MongoClient.connect(
       "mongodb+srv://db-test:haidarlayal1998@cluster0.2kcqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
       (error, db) => {
-        db.db().collection("movies").insertOne({
+        db.db()
+          .collection("movies")
+          .insertOne({
             title: req.query.title,
             year: req.query.year,
             rating: req.query.rating ? req.query.rating : "4",
@@ -154,22 +160,39 @@ router.post("/add", (req, res) => {
   }
 });
 
-router.delete("/delete/:id", (req, res) => {
+router.delete("/delete/:id", (req, res) => { 
   // router code here
+
   var isdeleted = 0;
   if (req.params.id) {
-    for (let i in movies) { // for(var i =0 ; i<movies.length ; i++)
-      if (movies[i].id == req.params.id) {
-        movies.splice(i, 1);
-        isdeleted = 1;
+    // for (let i in movies) { // for(var i =0 ; i<movies.length ; i++)
+    //   if (movies[i].id == req.params.id) {
+    //     movies.splice(i, 1);
+    //     isdeleted = 1;
+    //   }
+    // }
+
+    MongoClient.connect(
+      "mongodb+srv://db-test:haidarlayal1998@cluster0.2kcqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      (error, db) => {
+        db.db().collection("movies").deleteOne({//deleteOne is a promise fn. (It has .then and .catch)
+
+            _id: req.params.id, //like SQL where condition
+          })
+          .then((datadelete) => { //deleted successfully
+            res.redirect("/movies"); //res.redirect("URL");   //redirects me to localhost:3000/movies 
+          })
+          .catch((err) => {
+            //error in deleting or ID not found
+            res.send({
+              status: 404,
+              error: true,
+              message: `the movie ${res.params.id} does not exist`,
+            });
+          });
       }
-    }
+    );
   }
-  res.send({
-    status: isdeleted == 0 ? 404 : 200,
-    error: isdeleted == 0 ? true : undefined,
-    message: isdeleted == 0 ? `the movie ${res.params.id} does not exist` : movies,
-  });
 });
 
 router.put("/update/:id", (req, res) => {
