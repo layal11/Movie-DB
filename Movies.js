@@ -1,3 +1,5 @@
+const MongoClient = require("mongodb").MongoClient;
+
 const { response } = require("express");
 
 const router = require("express").Router();
@@ -10,7 +12,12 @@ const movies = [
 ];
 
 router.get("/", (req, res) => {
-  // router code here
+  MongoClient.connect(
+    "mongodb+srv://db-test:haidarlayal1998@cluster0.2kcqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    (error, db) => {
+      res.send({ status: 200, data: movies });
+    }
+  );
 });
 
 router.get("/read", (req, res) => {
@@ -104,14 +111,30 @@ router.get("/read/id/:id", (req, res) => {
 });
 
 router.post("/add", (req, res) => {
+  //router.post("/add:year([0-9]{4})", (req, res) => {   });
+  // :year[allow only numeric]{specify length}
+  //router.post("/add:year([a-zA-Z]{4})", (req, res) => {   });
+  // :year[allow only characcters]{specify length}
+
   // router code here
-  console.log(req.query.year);
+  // console.log(req.query.year);
   if (
     req.query.title &&
     req.query.year &&
     req.query.year.toString().length == 4 &&
     !isNaN(req.query.year)
   ) {
+    MongoClient.connect(
+      "mongodb+srv://db-test:haidarlayal1998@cluster0.2kcqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+      (error, db) => {
+        db.db().collection("movies").insertOne({
+            title: req.query.title,
+            year: req.query.year,
+            rating: req.query.rating ? req.query.rating : "4",
+            id: Math.random(),
+          });
+      }
+    );
     movies.push({
       title: req.query.title,
       year: req.query.year,
@@ -135,8 +158,7 @@ router.delete("/delete/:id", (req, res) => {
   // router code here
   var isdeleted = 0;
   if (req.params.id) {
-    for (let i in movies) {
-      // for(var i =0 ; i<movies.length ; i++)
+    for (let i in movies) { // for(var i =0 ; i<movies.length ; i++)
       if (movies[i].id == req.params.id) {
         movies.splice(i, 1);
         isdeleted = 1;
@@ -146,8 +168,7 @@ router.delete("/delete/:id", (req, res) => {
   res.send({
     status: isdeleted == 0 ? 404 : 200,
     error: isdeleted == 0 ? true : undefined,
-    message:
-      isdeleted == 0 ? `the movie ${res.params.id} does not exist` : movies,
+    message: isdeleted == 0 ? `the movie ${res.params.id} does not exist` : movies,
   });
 });
 
@@ -155,11 +176,14 @@ router.put("/update/:id", (req, res) => {
   // router code here
   var isdeleted = 0;
   if (req.params.id) {
-    for (let i in movies) { // for(var i =0 ; i < movies.length ; i++)
+    for (let i in movies) {
+      // for(var i =0 ; i < movies.length ; i++)
       if (movies[i].id == req.params.id) {
         movies[i].title = req.query.title ? req.query.title : movies[i].title;
-        movies[i].rating = req.query.rating ? req.query.rating : movies[i].rating;
-        movies[i].year = req.query.year? req.query.year : movies[i].year;
+        movies[i].rating = req.query.rating
+          ? req.query.rating
+          : movies[i].rating;
+        movies[i].year = req.query.year ? req.query.year : movies[i].year;
       }
     }
   }
