@@ -1,3 +1,6 @@
+
+var session = require('express-session');
+
 const MongoClient = require('mongodb').MongoClient;
 
 var express = require("express");
@@ -5,13 +8,23 @@ var express = require("express");
 var app = express();
 
 
+// Express Session Middleware
+app.use( //opening session
+  session({
+      secret: "layal",
+      maxAge: new Date(Date.now() + 3600000),
+      resave: true,
+      saveUninitialized: true,
+      cookie: { path: "/", httpOnly: true, maxAge: 36000000 },
+  })
+);
+
+
+
 //the server should connect to database before the user can access the api
   app.get("/test", (request, response) => {
     response.send({ status: 200, message: "ok" });
   });
-
-
-
 
 
   app.get("/time", (request, response) => {
@@ -27,6 +40,7 @@ var app = express();
         (date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()),
     });
   });
+
 
   app.get("/", (request, response) => {
     response.send({ status: 200, message: "ok" });
@@ -65,7 +79,8 @@ var app = express();
   var movies_route = require("./Movies");
   app.use("/movies", movies_route);
 
-
+  var users_route = require("./Users");
+  app.use("/users", users_route);
 
 
 

@@ -19,6 +19,7 @@
   "homepage": "https://github.com/layal11/Movie-DB#readme",
   "dependencies": {
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "mongodb": "^3.6.9",
     "response-time": "^2.3.2"
   }

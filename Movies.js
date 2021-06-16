@@ -93,7 +93,7 @@ router.get("/read/id", (req, res) => {
 router.get("/read/id/:id", (req, res) => {
   // router code here
 
-  if (req.params.id) {
+  if (req.params.id && req.user) {
     var filtereddata = undefined;
 
     for (var i = 0; i < movies.length; i++) {
@@ -126,7 +126,8 @@ router.post("/add", (req, res) => {
     req.query.title &&
     req.query.year &&
     req.query.year.toString().length == 4 &&
-    !isNaN(req.query.year)
+    !isNaN(req.query.year) &&
+    req.user
   ) {
     MongoClient.connect(
       "mongodb+srv://db-test:haidarlayal1998@cluster0.2kcqn.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
@@ -164,7 +165,7 @@ router.delete("/delete/:id", (req, res) => {
   // router code here
 
   var isdeleted = 0;
-  if (req.params.id) {
+  if (req.params.id && req.user) {
     // for (let i in movies) { // for(var i =0 ; i<movies.length ; i++)
     //   if (movies[i].id == req.params.id) {
     //     movies.splice(i, 1);
@@ -198,7 +199,7 @@ router.delete("/delete/:id", (req, res) => {
 router.put("/update/:id", (req, res) => {
   // router code here
   var isdeleted = 0;
-  if (req.params.id) {
+  if (req.params.id && req.user) {
     for (let i in movies) {
       // for(var i =0 ; i < movies.length ; i++)
       if (movies[i].id == req.params.id) {
